@@ -10,4 +10,8 @@ public interface UserService {
 
 	ResponseEntity<ResponseStructure<UserResponse>> registerUser(UserRequest userRequest);
 
+	ResponseEntity<ResponseStructure<UserResponse>> findUniqueUser(int userId);
+
+	ResponseEntity<ResponseStructure<UserResponse>> deleteUser(int userId);
+
 }
