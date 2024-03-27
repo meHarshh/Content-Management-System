@@ -1,6 +1,7 @@
 package com.example.cms.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +27,19 @@ public class UserController {
 		return userService.registerUser(userRequest);
 	}
 
-	@GetMapping(value = "/users/{usersId}")
+	@GetMapping(value = "/users/{userId}")
 	public ResponseEntity<ResponseStructure<UserResponse>> findUniqueUser(@PathVariable int userId) {
 		return userService.findUniqueUser(userId);
 	}
+	
+	@DeleteMapping(value = "/users/{userId}")
+	public ResponseEntity<ResponseStructure<UserResponse>> deleteUser(@PathVariable int userId){
+		return userService.deleteUser(userId);
+	}
+	
+	@GetMapping(value = "/test")
+	public String test() {
+		return "Harsh";
+	}
+
 }

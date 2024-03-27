@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.cms.exception.UserAlreadyExistByEmailException;
+import com.example.cms.exception.UserNotFoundByIdException;
 
 
 
@@ -47,7 +48,19 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 		errorStructure.setMessage(ex.getMessage());
 		errorStructure.setRootCause("Email already registered with the same email");
 
-		return new ResponseEntity<ErrorStructure>(errorStructure, HttpStatus.BAD_GATEWAY);
+		return new ResponseEntity<ErrorStructure>(errorStructure, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure> userNotFoundByIdException(UserNotFoundByIdException ex){
+		errorStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		errorStructure.setMessage(ex.getMessage());
+		errorStructure.setRootCause("Please validate the userId and enter again cause no user is available with the given id");
+		return new ResponseEntity<ErrorStructure>(errorStructure,HttpStatus.BAD_REQUEST);
+				
+				
+				
+				
+				
+	}
 }

@@ -1,6 +1,5 @@
 package com.example.cms.serviceimpl;
 
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,8 +52,19 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<ResponseStructure<UserResponse>> findUniqueUser(int userId) {
 		return repository.findById(userId)
 				.map(user -> ResponseEntity.ok(responseStructure.setStatusCode(HttpStatus.OK.value())
-						.setMessage("Data fetched sucessfully").setData(mapToResponse(user))))
+						.setMessage("User fetched sucessfully").setData(mapToResponse(user))))
 				.orElseThrow(() -> new UserNotFoundByIdException("Invalid userID"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> deleteUser(int userId) {
+		return repository.findById(userId).map(user -> {
+			user.setDeleted(true);
+			repository.save(user);
+			return ResponseEntity.ok(responseStructure.setStatusCode(HttpStatus.OK.value())
+					.setMessage("User deleted sucessfully").setData(mapToResponse(user)));
+		}).orElseThrow(() -> new UserNotFoundByIdException("Invalid userId"));
+
 	}
 
 }
