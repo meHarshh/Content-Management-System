@@ -6,11 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.cms.dto.UserRequest;
 import com.example.cms.entity.User;
 import com.example.cms.exception.UserAlreadyExistByEmailException;
 import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.repository.UserRepository;
+import com.example.cms.requestDto.UserRequest;
 import com.example.cms.responseDto.UserResponse;
 import com.example.cms.service.UserService;
 import com.example.cms.utility.ResponseStructure;

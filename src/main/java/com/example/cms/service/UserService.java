@@ -2,7 +2,7 @@ package com.example.cms.service;
 
 import org.springframework.http.ResponseEntity;
 
-import com.example.cms.dto.UserRequest;
+import com.example.cms.requestDto.UserRequest;
 import com.example.cms.responseDto.UserResponse;
 import com.example.cms.utility.ResponseStructure;
 
