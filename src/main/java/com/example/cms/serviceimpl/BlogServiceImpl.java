@@ -9,6 +9,7 @@ import com.example.cms.entity.Blog;
 import com.example.cms.exception.BlogAlreadyExistsByTitleException;
 import com.example.cms.exception.BlogNotAvailableByTitleException;
 import com.example.cms.exception.BlogNotFoundByIdException;
+import com.example.cms.exception.TopicNotSpecifiedException;
 import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.repository.BlogRepository;
 import com.example.cms.repository.UserRepository;
@@ -29,21 +30,13 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<BlogResponse>> createBlog(int userId, BlogRequest blogRequest) {
-		if (blogRepository.existsByTitle(blogRequest.getTitle())) {
-			throw new BlogAlreadyExistsByTitleException("Please change the title of the vlog");
-		}
-//		Optional<User> optional = userRepository.findById(userId);
-//		if (optional.isPresent()) {
-//			User user = optional.get();
-//			Blog blog = mapToBlog(blogRequest);
-//			user.getBlogs().add(blog);
-//			blogRepository.save(blog);
-//			userRepository.save(user);
-//		}
-//		Blog blog2 = blogRepository.save(mapToBlog(blogRequest));
-//		return ResponseEntity.ok(responseStructure.setStatusCode(HttpStatus.OK.value())
-//				.setMessage("Blog added sucessfully to thr user").setData(mapToResponse(blog2)));
 		return userRepository.findById(userId).map(user -> {
+			if (blogRepository.existsByTitle(blogRequest.getTitle())) {
+				throw new BlogAlreadyExistsByTitleException("Invalid blog title");
+				}
+			if(blogRequest.getTopics().length<1) {
+				throw new TopicNotSpecifiedException("Failed to create");
+			}
 			Blog blog = mapToBlog(blogRequest);
 			user.getBlogs().add(blog);
 			blogRepository.save(blog);
