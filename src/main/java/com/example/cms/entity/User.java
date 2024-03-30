@@ -1,7 +1,5 @@
 package com.example.cms.entity;
 
-
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,26 +24,27 @@ import lombok.Setter;
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	private String userName;
 	private String userEmail;
 	private String userPassword;
-	
+
 	@CreatedDate
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
-	
+
 	@LastModifiedDate
-	private LocalDateTime lastModifiedAt;	
-	
+	private LocalDateTime lastModifiedAt;
+
 	private boolean deleted;
-	
-	@ManyToMany
+
+	@OneToMany(mappedBy = "user")
 	private List<Blog> blogs;
 	
-	
+	@ManyToMany(mappedBy = "users")
+	private List<ContributionPanel> contributionPanels;
 
 }
