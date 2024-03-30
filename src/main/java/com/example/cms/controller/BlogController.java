@@ -25,7 +25,7 @@ public class BlogController {
 	}
 	
 	@GetMapping(value = "/titles/{title}/blogs")
-	public ResponseEntity<ResponseStructure<BlogResponse>> fetchByTitle(@PathVariable String title ){
+	public ResponseEntity<Boolean> fetchByTitle(@PathVariable String title ){
 		return blogService.fetchByTitle(title);		
 	}
 	

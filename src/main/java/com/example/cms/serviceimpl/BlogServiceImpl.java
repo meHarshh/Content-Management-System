@@ -6,18 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.cms.entity.Blog;
+import com.example.cms.entity.ContributionPanel;
 import com.example.cms.exception.BlogAlreadyExistsByTitleException;
-import com.example.cms.exception.BlogNotAvailableByTitleException;
 import com.example.cms.exception.BlogNotFoundByIdException;
 import com.example.cms.exception.TopicNotSpecifiedException;
 import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.repository.BlogRepository;
+import com.example.cms.repository.ContributionPanelRepository;
 import com.example.cms.repository.UserRepository;
 import com.example.cms.requestDto.BlogRequest;
 import com.example.cms.responseDto.BlogResponse;
 import com.example.cms.service.BlogService;
 import com.example.cms.utility.ResponseStructure;
-
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -27,6 +27,7 @@ public class BlogServiceImpl implements BlogService {
 	private UserRepository userRepository;
 	private BlogRepository blogRepository;
 	private ResponseStructure<BlogResponse> responseStructure;
+	private ContributionPanelRepository contributionPanelRepository;
 
 	@Override
 	public ResponseEntity<ResponseStructure<BlogResponse>> createBlog(int userId, BlogRequest blogRequest) {
@@ -38,9 +39,14 @@ public class BlogServiceImpl implements BlogService {
 				throw new TopicNotSpecifiedException("Failed to create");
 			}
 			Blog blog = mapToBlog(blogRequest);
+			ContributionPanel contributionPanel = new ContributionPanel();
+			ContributionPanel panel = contributionPanelRepository.save(contributionPanel);
 			user.getBlogs().add(blog);
-			blogRepository.save(blog);
+			blog.setContributionPanel(panel);
+			blog.setUser(user);
+			blog = blogRepository.save(blog);
 			userRepository.save(user);
+			
 			return blog;
 		}).map(blog -> ResponseEntity.ok(responseStructure.setStatusCode(HttpStatus.OK.value())
 				.setMessage("Blog added sucessfully to thr user").setData(mapToResponse(blog))))
@@ -63,12 +69,8 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public ResponseEntity<ResponseStructure<BlogResponse>> fetchByTitle(String title) {
-		return blogRepository.findByTitle(title)
-				.map(blog -> ResponseEntity.ok(responseStructure.setStatusCode(HttpStatus.OK.value())
-						.setMessage("Blog fetched by title").setData(mapToResponse(blog))))
-				.orElseThrow(() -> new BlogNotAvailableByTitleException("Invald blog title"));
-
+	public ResponseEntity<Boolean> fetchByTitle(String title) {
+		return ResponseEntity.ok(blogRepository.existsByTitle(title));
 	}
 
 	@Override

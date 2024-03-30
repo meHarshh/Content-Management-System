@@ -10,7 +10,7 @@ public interface BlogService {
 
 	ResponseEntity<ResponseStructure<BlogResponse>> createBlog(int userId, BlogRequest blogRequest);
 
-	ResponseEntity<ResponseStructure<BlogResponse>> fetchByTitle(String title);
+	ResponseEntity<Boolean> fetchByTitle(String title);
 
 	ResponseEntity<ResponseStructure<BlogResponse>> findById(int blogId);
 
