@@ -1,4 +1,4 @@
-package com.example.cms.requestDto;
+package com.example.cms.dto;
 
 
 import jakarta.validation.constraints.Email;
