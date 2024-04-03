@@ -35,7 +35,8 @@ public class ContributionPanelServiceImpl implements ContributionPanelService {
 				if (!blogRepository.existsByUserAndContributionPanel(owner, panel))
 					throw new IllegalAccessRequestException("Failed to add");
 				return userRepository.findById(userId).map(contributor -> {
-					if(! panel.getUsers().contains(contributor)) {
+//					if(! panel.getUsers().contains(contributor)&& panel.getUsers().contains(owner)) 
+					{
 						panel.getUsers().add(contributor);
 						contributionPanelRepository.save(panel);
 					}
