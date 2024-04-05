@@ -29,4 +29,6 @@ public class PublishController {
 	public ResponseEntity<ResponseStructure<PublishResponse>> unpublishBlogPost(@PathVariable int postId){
 		return publishService.unpublishBlogPost(postId);
 	}
+	
+	
 }
