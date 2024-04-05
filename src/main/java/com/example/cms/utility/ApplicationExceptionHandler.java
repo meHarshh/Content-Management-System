@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.example.cms.exception.BlogAlreadyExistsByTitleException;
 import com.example.cms.exception.BlogNotAvailableByTitleException;
 import com.example.cms.exception.BlogNotFoundByIdException;
+import com.example.cms.exception.BlogPostNotFoundByIdException;
 import com.example.cms.exception.IllegalAccessRequestException;
 import com.example.cms.exception.PanelNotFoundByIdException;
 import com.example.cms.exception.TopicNotSpecifiedException;
@@ -68,4 +69,13 @@ public class ApplicationExceptionHandler {
 	public ResponseEntity<ErrorStructure<String>> handlePanelNotFoundById(PanelNotFoundByIdException ex){
 		return errorResonse(HttpStatus.BAD_REQUEST,ex.getMessage(), "The id you are trying to get is not available plese try again with different id");
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleblogPostNotFoundById(BlogPostNotFoundByIdException ex){
+		return errorResonse(HttpStatus.BAD_REQUEST,ex.getMessage(), "The id you are trying to get is not available plese try again with different id");
+	}
+	
+	
+	
+	
 }
