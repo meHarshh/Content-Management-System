@@ -2,9 +2,7 @@ package com.example.cms.entity;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -44,14 +42,14 @@ public class BlogPost {
 	@Column(nullable = false , updatable = false)
 	private LocalDateTime createdAt;
 	
-	@CreatedBy
+	
 	@Column(updatable = false)
 	private String createdBy;
 	
 	@LastModifiedDate
 	private LocalDateTime lastModifiedAt;
 	
-	@LastModifiedBy
+	
 	private String lastModifiedBy;
 	
 	@ManyToOne
